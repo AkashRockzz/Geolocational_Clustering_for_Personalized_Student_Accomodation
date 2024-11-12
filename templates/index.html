@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Accommodation Map</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Find Nearby Accommodation</h1>
+        <form id="location-form">
+            <label for="latitude">Latitude:</label>
+            <input type="text" id="latitude" name="latitude" placeholder="Enter latitude" required>
+            <label for="longitude">Longitude:</label>
+            <input type="text" id="longitude" name="longitude" placeholder="Enter longitude" required>
+            <button type="submit">Show Map</button>
+        </form>
+        <div id="map-container">
+            <iframe id="map" src="map.html" title="Accommodation Map"></iframe>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('location-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const lat = document.getElementById('latitude').value;
+            const lng = document.getElementById('longitude').value;
+    
+            const response = await fetch('/api/map', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ latitude: lat, longitude: lng })
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                if (result.message === 'Map generated successfully') {
+                    document.getElementById('map').src = 'map.html';
+                    alert('Map generated successfully');
+                }
+            } else {
+                alert('Error: Could not fetch data');
+            }
+        };
+    </script>
+    
+</body>
+</html>
