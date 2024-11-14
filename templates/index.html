@@ -17,7 +17,7 @@
             <button type="submit">Show Map</button>
         </form>
         <div id="map-container">
-            <iframe id="map" src="map.html" title="Accommodation Map"></iframe>
+            <iframe id="map" src="" title="Accommodation Map"></iframe>
         </div>
     </div>
 
@@ -36,7 +36,7 @@
             if (response.ok) {
                 const result = await response.json();
                 if (result.message === 'Map generated successfully') {
-                    document.getElementById('map').src = 'map.html';
+                    document.getElementById('map').src = '/map?timestamp=' + new Date().getTime(); // Load dynamically
                     alert('Map generated successfully');
                 }
             } else {
@@ -44,6 +44,7 @@
             }
         };
     </script>
+    
     
 </body>
 </html>
